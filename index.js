@@ -1,8 +1,15 @@
 const express = require('express')
+const authRouter = require('./server/routes/AuthRouter.js')
+
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+app.use('/auth', authRouter);
+
+app.use('*', (req, res) => {
   res.send('Hello World!')
 })
 
