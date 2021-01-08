@@ -16,7 +16,9 @@ module.exports = (sequelize, DataTypes) => {
   Users.init({
     name: DataTypes.STRING,
     email: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    admin: DataTypes.BOOLEAN,
+    role: DataTypes.ENUM('hall', 'cook'),
   }, {
     sequelize,
     modelName: 'Users',
