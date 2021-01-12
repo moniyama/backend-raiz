@@ -1,13 +1,21 @@
+const models = require('../db/models')
+
 const deleteUser = (req, res) => {
   // requer auth
   const { uid } = req.params
   res.json(`delete User ${uid}`)
 }
 
-const getAllUsers = (req, res) => {
+const getAllUsers = async (req, res) => {
   // requer auth
-  // headers
-  res.json("get Users")
+  // headers  
+  try {
+    const users = await models.Users.findAll({ raw: true })
+    return res.json(users)
+  } catch (error) {
+    console.log(error)
+    res.json("caiu no catch")
+  }
 }
 
 const getUser = (req, res) => {
@@ -22,7 +30,7 @@ const postUser = (req, res) => {
 }
 
 const updateUser = (req, res) => {
-  const { email, password} = req.body
+  const { email, password } = req.body
   const { uid } = req.params
   res.json({ op: `update user: ${uid}`, email, password })
 }
