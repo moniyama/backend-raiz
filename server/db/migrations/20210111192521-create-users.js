@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       role: {
-        type: Sequelize.ENUM('hall', 'cook'),
+        type: Sequelize.ENUM('hall', 'cook')
       },
       createdAt: {
         allowNull: false,
