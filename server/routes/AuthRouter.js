@@ -1,7 +1,7 @@
-const express = require("express")
+const { Router } = require("express")
 const authController = require('../controller/AuthController.js')
 
-const router = express.Router()
+const router = Router()
 
 router.post('/', authController.createToken)
 

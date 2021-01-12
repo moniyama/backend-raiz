@@ -1,6 +1,7 @@
-const express = require('express')
+const { Router } = require("express")
 const productsController = require('../controller/ProductsController.js')
-const router = express.Router()
+
+const router = Router()
 
 router.delete('/:productId', productsController.deleteProduct)
 router.get('/', productsController.getAllProducts)

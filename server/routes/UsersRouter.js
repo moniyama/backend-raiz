@@ -1,7 +1,7 @@
-const express = require('express')
+const { Router } = require('express')
 const usersController = require('../controller/UsersController.js')
 
-const router = express.Router()
+const router = Router()
 
 router.delete('/:uid', usersController.deleteUser)
 router.get('/', usersController.getAllUsers)

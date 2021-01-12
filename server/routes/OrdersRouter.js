@@ -1,7 +1,7 @@
-const express = require('express')
+const { Router } = require("express")
 const ordersController = require('../controller/OrdersController.js')
 
-const router = express.Router()
+const router = Router()
 
 router.delete('/:orderId', ordersController.deleteOrder)
 router.get('/', ordersController.getAllOrders)
