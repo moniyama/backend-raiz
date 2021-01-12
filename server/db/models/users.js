@@ -25,3 +25,16 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Users;
 };
+
+// module.exports = (sequelize, DataTypes) => {
+//   const Users = sequelize.define('users', {
+//     name: DataTypes.STRING,
+//     email: DataTypes.STRING,
+//     password: DataTypes.STRING,
+//     admin: DataTypes.BOOLEAN,
+//     role: DataTypes.ENUM('hall', 'cook'),
+//   }, {})
+//   Users.associate = function (models) {
+//   };
+//   return Users
+// }
