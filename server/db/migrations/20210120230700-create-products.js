@@ -14,14 +14,20 @@ module.exports = {
       price: {
         type: Sequelize.DECIMAL
       },
+      flavor: {
+        type: Sequelize.STRING
+      },
+      complement: {
+        type: Sequelize.STRING
+      },
       image: {
         type: Sequelize.STRING
       },
       type: {
-        type: Sequelize.ENUM('breakfast', 'lunch')
+        type: Sequelize.STRING
       },
-      subitem: {
-        type: Sequelize.ENUM('breakfast', 'side', 'hamburguer', 'drinks')
+      sub_type: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

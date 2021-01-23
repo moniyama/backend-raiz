@@ -16,9 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   Products.init({
     name: DataTypes.STRING,
     price: DataTypes.DECIMAL,
+    flavor: DataTypes.STRING,
+    complement: DataTypes.STRING,
     image: DataTypes.STRING,
-    type: DataTypes.ENUM('breakfast', 'lunch'),
-    subitem: DataTypes.ENUM('breakfast', 'side', 'hamburguer', 'drinks')
+    type: DataTypes.STRING,
+    sub_type: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Products',

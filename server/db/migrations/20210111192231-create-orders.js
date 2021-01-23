@@ -8,6 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      user_id: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
       client_name: {
         type: Sequelize.STRING
       },
@@ -15,7 +20,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.ENUM('pending', 'canceled', 'delivering', 'delivered')
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

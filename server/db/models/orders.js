@@ -10,13 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Orders.belongsTo(models.Users);
     }
   };
   Orders.init({
     client_name: DataTypes.STRING,
+    user_id: DataTypes.UUID,
     table: DataTypes.INTEGER,
-    status: DataTypes.ENUM('pending', 'canceled', 'delivering', 'delivered')
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Orders',
