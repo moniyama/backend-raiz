@@ -82,7 +82,7 @@ const postUser = async (req, res) => {
           password: hash,
           role: role.toLowerCase(),
         });
-        const token = jwt.sign({ email, id: user.id, role: user.role }, 'HMAC', { expiresIn: "1y" })
+        const token = jwt.sign({ email, id: user.id }, 'HMAC', { expiresIn: "1y" })
         user.dataValues.token = token
         res.json(rebuildObj([user])[0])
       } else {
