@@ -10,8 +10,8 @@ module.exports = {
       },
       user_id: {
         allowNull: false,
-        primaryKey: true,
         type: Sequelize.INTEGER,
+        references: { model:'Users', key:'id'}
       },
       client_name: {
         type: Sequelize.STRING
