@@ -102,19 +102,34 @@ const updateUser = async (req, res) => {
   } else {
     try {
       const user = await models.Users.findOne({ where: { id: uid, email } });
-      let updatedUser = user.dataValues
-      if (name) {
-        updatedUser.name = name
-      }
-      if (role) {
-        updatedUser.role = role
-      }
-      await models.Users.update(updatedUser, {
-        where: {
-          id: uid
+      const userData = user.dataValues
+      if (!user) {
+        res.json(error(404, `Usuário(a) de ${uid} com email ${email} não existe`))
+      } else {
+        if (name === userData.name && role === userData.role) {
+          console.log('name e role são os mesmo - precisa verificar a senha');
+          const saltRounds = 12;
+          const newHash = await bcrypt.hash("senha", saltRounds);
+          const newHash2 = await bcrypt.hash("senha", saltRounds);
+          console.log(newHash)
+          console.log(newHash2)
+          // PORQUE newHash não é IGUAL a newHash ???
+          res.json(error(400, "Não há alterações para serem aplicadas"))
+        } else {
+          if (name) {
+            userData.name = name
+          }
+          if (role) {
+            userData.role = role
+          }
+          await models.Users.update(userData, {
+            where: {
+              id: uid
+            }
+          });
+          res.status(200).json(rebuildObj([user])[0])
         }
-      });
-      res.status(200).json(rebuildObj([user])[0])
+      }
     } catch (error) {
       console.log(error);
     }
