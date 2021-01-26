@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const models = require('../db/models')
-const error = require('../../utils.js')
+const error = require('../../utils')
 
 const createToken = async (req, res) => {
   const { email, password } = req.body

@@ -1,8 +1,8 @@
 const express = require('express')
-const authRouter = require('./server/routes/AuthRouter.js')
-const productsRouter = require('./server/routes/ProductsRouter.js')
-const ordersRouter = require('./server/routes/OrdersRouter.js')
-const usersRouter = require('./server/routes/UsersRouter.js')
+const authRouter = require('./server/routes/AuthRouter')
+const productsRouter = require('./server/routes/ProductsRouter')
+const ordersRouter = require('./server/routes/OrdersRouter')
+const usersRouter = require('./server/routes/UsersRouter')
 
 const app = express()
 const port = 3000

@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const models = require('../db/models')
 const jwt = require('jsonwebtoken')
-const error = require('../../utils.js')
+const error = require('../../utils')
 
 const rebuildObj = (arr) => {
   return arr.map(obj => {
