@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Products.init({
     name: DataTypes.STRING,
-    price: DataTypes.DECIMAL,
+    price: DataTypes.FLOAT,
     flavor: DataTypes.STRING,
     complement: DataTypes.STRING,
     image: DataTypes.STRING,

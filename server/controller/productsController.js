@@ -44,17 +44,19 @@ const getProduct = async (req, res) => {
 }
 
 const postProduct = async (req, res) => {
-  const { name, price, image, type, subitem } = req.body
+  const { name, price, image, type, subType, flavor, complement } = req.body
 
   if (!name || !price) {
     res.json(error(400, 'não foi indicado name ou price'))
   } else {
     const newProduct = {
       name,
-      price,
+      price: parseFloat(price),
       image: image || null,
       type: type || null,
-      subitem: subitem || null,
+      sub_type: subType || null,
+      flavor: flavor || null,
+      complement: complement || null,
     }
     try {
       const product = await models.Products.create(newProduct)
