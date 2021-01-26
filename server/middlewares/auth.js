@@ -15,10 +15,10 @@ const tokenVerify = async (req, res, next) => {
           email: decoded.email
         }
       })
-      if (!hasUser) {
-        res.json(error(401, "Usuário inexistente"))
-      } else {
+      if (hasUser) {
         next()
+      } else {
+        res.json(error(401, "Usuário inexistente"))
       }
     } catch (err) {
       res.json(error(401, "token inválido")) // seilá que code usar
