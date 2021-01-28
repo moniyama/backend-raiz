@@ -8,7 +8,7 @@ const tokenVerify = async (req, res, next) => {
     res.json(error(401, "token não fornecido"))
   } else {
     try {
-      var decoded = jwt.verify(token, 'HMAC')
+      const decoded = jwt.verify(token, 'HMAC')
       const hasUser = await models.Users.findOne({
         where: {
           id: decoded.id,
@@ -18,7 +18,7 @@ const tokenVerify = async (req, res, next) => {
       if (hasUser) {
         next()
       } else {
-        res.json(error(401, "Usuário inexistente"))
+        res.json(error(401, "token de usuário inexistente"))
       }
     } catch (err) {
       res.json(error(401, "token inválido")) // seilá que code usar
