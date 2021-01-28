@@ -66,10 +66,10 @@ const getUser = async (req, res) => {
 }
 
 const postUser = async (req, res) => {
-  const { email, password, name, role } = req.body
+  const { email, password, name, role, restaurant } = req.body
 
-  if (!email || !password || !role) {
-    res.json(error(400, "Email, senha ou função não fornecido"))
+  if (!email || !password || !role || !restaurant) {
+    res.json(error(400, "Email, senha, função ou nome do restaurante não fornecido"))
   } else {
     try {
       const hasUser = await models.Users.findOne({ where: { email } })
@@ -79,6 +79,7 @@ const postUser = async (req, res) => {
         const user = await models.Users.create({
           name,
           email,
+          restaurant,
           password: hash,
           role: role.toLowerCase(),
         });
@@ -107,13 +108,6 @@ const updateUser = async (req, res) => {
         res.json(error(404, `Usuário(a) de ${uid} com email ${email} não existe`))
       } else {
         if (name === userData.name && role === userData.role) {
-          console.log('name e role são os mesmo - precisa verificar a senha');
-          const saltRounds = 12;
-          const newHash = await bcrypt.hash("senha", saltRounds);
-          const newHash2 = await bcrypt.hash("senha", saltRounds);
-          console.log(newHash)
-          console.log(newHash2)
-          // PORQUE newHash não é IGUAL a newHash ???
           res.json(error(400, "Não há alterações para serem aplicadas"))
         } else {
           if (name) {
