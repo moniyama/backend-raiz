@@ -9,7 +9,7 @@ const deleteProduct = async (req, res) => {
       const deleteProduct = await models.Products.destroy({ where: { id: productId } })
       res.status(200).json(product)
     } else {
-      res.json(error(400, "Produto não existe"))
+      res.status(400).json(error(400, "Produto não existe"))
     }
   } catch (error) {
     console.log(error)
@@ -23,7 +23,7 @@ const getAllProducts = async (req, res) => {
         ['id', 'ASC']
       ]
     })
-    res.json(products)
+    res.status(200).json(products)
   } catch (error) {
     console.log(error)
   }
@@ -34,9 +34,9 @@ const getProduct = async (req, res) => {
   try {
     const product = await models.Products.findOne({ where: { id: productId } })
     if (!product) {
-      res.json(error(404, `não existe produto com id ${productId}`))
+      res.status(404).json(error(404, `não existe produto com id ${productId}`))
     } else {
-      res.json(product)
+      res.status(200).json(product)
     }
   } catch (error) {
     console.log(error)
@@ -47,7 +47,7 @@ const postProduct = async (req, res) => {
   const { name, price, image, type, subType, flavor, complement } = req.body
 
   if (!name || !price) {
-    res.json(error(400, 'não foi indicado name ou price'))
+    res.status(400).json(error(400, 'não foi indicado name ou price'))
   } else {
     const newProduct = {
       name,
@@ -60,7 +60,7 @@ const postProduct = async (req, res) => {
     }
     try {
       const product = await models.Products.create(newProduct)
-      res.json(product)
+      res.status(200).json(product)
     } catch (error) {
       console.log("error", error)
     }
@@ -70,7 +70,7 @@ const postProduct = async (req, res) => {
 const updateProduct = (req, res) => {
   const { name, price } = req.body
   const { productId } = req.params
-  res.json({ op: "update", name, price })
+  res.status(200).json({ op: "update", name, price })
 }
 
 module.exports = {

@@ -16,7 +16,7 @@ const createToken = async (req, res) => {
       delete userData.password
       res.status(200).json(userData)
     } else {
-      res.json(error(400, "usuario não cadastrado"))
+      res.status(400).json(error(400, "usuario não cadastrado"))
     }
   }
 }

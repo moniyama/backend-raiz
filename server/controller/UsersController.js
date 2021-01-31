@@ -11,12 +11,11 @@ const rebuildObj = (arr) => {
 }
 
 const deleteUser = async (req, res) => {
-  // requer auth
   const { uid } = req.params
   try {
     const user = await models.Users.findOne({ where: { id: uid } });
     if (!user) {
-      res.json(error(404, 'usuario(a) não existe'))
+      res.status(404).json(error(404, 'usuario(a) não existe'))
     } else {
       const deleteUser = await models.Users.destroy({   // dá pra aproveitar o user??
         where: {
@@ -40,14 +39,13 @@ const getAllUsers = async (req, res) => {
         ['id', 'ASC']
       ]
     })
-    res.json(rebuildObj(users))
+    res.status(200).json(rebuildObj(users))
   } catch (error) {
     console.log(error)
   }
 }
 
 const getUser = async (req, res) => {
-  // requer auth
   const { uid } = req.params
   try {
     const user = await models.Users.findOne({
@@ -56,7 +54,7 @@ const getUser = async (req, res) => {
       }
     })
     if (user) {
-      res.json(rebuildObj([user])[0])
+      res.status(200).json(rebuildObj([user])[0])
     } else {
       res.status(404).json('usuaria solicitada no existe')
     }
@@ -69,7 +67,7 @@ const postUser = async (req, res) => {
   const { email, password, name, role, restaurant } = req.body
 
   if (!email || !password || !role || !restaurant) {
-    res.json(error(400, "Email, senha, função ou nome do restaurante não fornecido"))
+    res.status(400).json(error(400, "email, password, role ou restaurant não fornecido"))
   } else {
     try {
       const hasUser = await models.Users.findOne({ where: { email } })
@@ -85,9 +83,9 @@ const postUser = async (req, res) => {
         });
         const token = jwt.sign({ email, id: user.id }, 'HMAC', { expiresIn: "1y" })
         user.dataValues.token = token
-        res.json(rebuildObj([user])[0])
+        res.status(200).json(rebuildObj([user])[0])
       } else {
-        res.json(error(403, "Email já cadastrado"))
+        res.status(403).json(error(403, "Email já cadastrado"))
       }
     } catch (error) {
       console.log(error)
@@ -99,16 +97,16 @@ const updateUser = async (req, res) => {
   const { email, password, name, role } = req.body
   const { uid } = req.params
   if (!email || !password) {
-    res.json(error(400, "Email ou senha não fornecido"))
+    res.status(400).json(error(400, "Email ou senha não fornecido"))
   } else {
     try {
       const user = await models.Users.findOne({ where: { id: uid, email } });
       const userData = user.dataValues
       if (!user) {
-        res.json(error(404, `Usuário(a) de ${uid} com email ${email} não existe`))
+        res.status(404).json(error(404, `Usuário(a) de ${uid} com email ${email} não existe`))
       } else {
         if (name === userData.name && role === userData.role) {
-          res.json(error(400, "Não há alterações para serem aplicadas"))
+          res.status(400).json(error(400, "Não há alterações para serem aplicadas"))
         } else {
           if (name) {
             userData.name = name

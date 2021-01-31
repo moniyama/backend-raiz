@@ -5,7 +5,7 @@ const error = require('../../utils')
 const tokenVerify = async (req, res, next) => {
   const token = req.headers.authorization
   if (!token) {
-    res.json(error(401, "token não fornecido"))
+    res.status(401).json(error(401, "token não fornecido"))
   } else {
     try {
       const decoded = jwt.verify(token, 'HMAC')
@@ -18,10 +18,10 @@ const tokenVerify = async (req, res, next) => {
       if (hasUser) {
         next()
       } else {
-        res.json(error(401, "token de usuário inexistente"))
+        res.status(401).json(error(401, "token de usuário inexistente"))
       }
     } catch (err) {
-      res.json(error(401, "token inválido")) // seilá que code usar
+      res.status(401).json(error(401, "token inválido"))
       console.log(err)
     }
   }
