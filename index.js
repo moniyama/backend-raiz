@@ -1,5 +1,8 @@
 const express = require('express')
 const cors = require('cors')
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger.json');
+
 const authRouter = require('./server/routes/AuthRouter')
 const productsRouter = require('./server/routes/ProductsRouter')
 const ordersRouter = require('./server/routes/OrdersRouter')
@@ -16,6 +19,8 @@ app.use('/auth', authRouter);
 app.use('/products', productsRouter);
 app.use('/orders', ordersRouter);
 app.use('/users', usersRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('*', (req, res) => {
   res.send('Hello World!')
