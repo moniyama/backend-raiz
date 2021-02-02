@@ -18,11 +18,10 @@ const tokenVerify = async (req, res, next) => {
       if (hasUser) {
         next()
       } else {
-        res.status(401).json(error(401, "token de usuário inexistente"))
+        throw new Error()
       }
     } catch (err) {
       res.status(401).json(error(401, "token inválido"))
-      console.log(err)
     }
   }
 }

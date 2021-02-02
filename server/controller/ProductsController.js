@@ -9,7 +9,7 @@ const deleteProduct = async (req, res) => {
       const deleteProduct = await models.Products.destroy({ where: { id: productId } })
       res.status(200).json(product)
     } else {
-      res.status(400).json(error(400, "Produto não existe"))
+      res.status(404).json(error(404, "Produto não existe"))
     }
   } catch (error) {
     console.log(error)
