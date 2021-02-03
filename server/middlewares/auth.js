@@ -15,6 +15,7 @@ const tokenVerify = async (req, res, next) => {
           email: decoded.email
         }
       })
+      res.locals.user = hasUser;
       if (hasUser) {
         next()
       } else {

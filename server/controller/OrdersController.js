@@ -40,8 +40,7 @@ const deleteOrder = async (req, res) => {
 }
 
 const getAllOrders = async (req, res) => {
-  const { restaurant } = req.body
-  // console.log(res.locals.user)
+  const restaurant = res.locals.user.dataValues.restaurant
   try {
     const orders = await models.Orders.findAll({
       include: [{
@@ -77,8 +76,8 @@ const getOrder = async (req, res) => {
 }
 
 const postOrder = async (req, res) => {
-  const { userId, client, table, productId } = req.body
-  // console.log(res.locals.user -> userId)
+  const { client, table, productId } = req.body
+  const userId = res.locals.user.dataValues.id
 
   try {
     if (!table || !client || !productId) {
