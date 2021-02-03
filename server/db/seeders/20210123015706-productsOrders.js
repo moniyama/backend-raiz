@@ -38,6 +38,30 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     },
+    {
+      order_id: 1,
+      product_id: 7,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      order_id: 5,
+      product_id: 4,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      order_id: 6,
+      product_id: 8,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      order_id: 6,
+      product_id: 8,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
     ], {});
   },
 

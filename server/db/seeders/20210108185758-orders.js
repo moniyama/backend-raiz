@@ -34,6 +34,22 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     },
+    {
+      client_name: 'Cliente 5',
+      user_id: 3,
+      table: 1,
+      status: "delivered",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      client_name: 'Cliente 6',
+      user_id: 3,
+      table: 4,
+      status: "delivered",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
   ], {});
   },
 
