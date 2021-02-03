@@ -796,11 +796,17 @@
         "status": {
           "type": "string"
         },
+        "processedAt": {
+          "type": "date",
+          "description": "Date of the first update process"
+        },
         "createdAt": {
-          "type": "date"
+          "type": "date",
+          "description": "Date of the creation process"
         },
         "updatedAt": {
-          "type": "date"
+          "type": "date",
+          "description": "Date of the last update process"
         },
         "Products": {
           "type": "array",
@@ -839,10 +845,12 @@
           "type": "string"
         },
         "role": {
-          "type": "string"
+          "type": "string",
+          "description": "User's job/role"
         },
         "restaurant": {
-          "type": "string"
+          "type": "string",
+          "description": "User's restaurant (workplace)"
         }
       }
     },

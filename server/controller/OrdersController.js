@@ -12,7 +12,6 @@ const rearrangeOrdersObject = (array) => {
       delete product.dataValues.createdAt
       delete product.dataValues.updatedAt
       delete product.dataValues.price
-
     })
     return obj
   })
@@ -78,7 +77,6 @@ const getOrder = async (req, res) => {
 const postOrder = async (req, res) => {
   const { client, table, productId } = req.body
   const userId = res.locals.user.dataValues.id
-
   try {
     if (!table || !client || !productId) {
       throw new Error()
@@ -87,7 +85,8 @@ const postOrder = async (req, res) => {
         client_name: client,
         user_id: parseInt(userId),
         table: parseInt(table),
-        status: "pending"
+        status: "pending",
+        processedAt: null,
       })
       const productsId = Array.from(productId).map(id => parseInt(id))
       for (const id of productsId) {
@@ -111,12 +110,16 @@ const updateOrder = async (req, res) => {
   const { orderId } = req.params
   try {
     const order = await models.Orders.findByPk(orderId, { include: [{ model: models.Products }] })
-    const orderData = order.dataValues
     if (order) {
+      const orderData = order.dataValues
       if (orderData.status !== status) {
+        if (!orderData.processedAt) {
+          orderData.processedAt = new Date()
+        }
         orderData.status = status
         await models.Orders.update(orderData, { where: { id: order.id } })
-        res.status(200).json(rearrangeOrdersObject([order])[0])
+        const updatedOrder = await models.Orders.findByPk(orderId, { include: [{ model: models.Products }] })
+        res.status(200).json(rearrangeOrdersObject([updatedOrder])[0])
       } else {
         res.status(400).json(error(400, "Sem alterações de status para realizar"))
       }

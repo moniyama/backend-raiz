@@ -8,15 +8,17 @@ module.exports = {
       table: 3,
       status: "pending",
       createdAt: new Date(),
-      updatedAt: new Date()
+      processedAt: null,
+      updatedAt: null
     },
     {
       client_name: 'Cliente 2',
       user_id: 2,
       table: 5,
       status: "canceled",
+      processedAt: null,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: null
     },
     {
       client_name: 'Cliente 3',
@@ -24,7 +26,8 @@ module.exports = {
       table: 8,
       status: "delivering",
       createdAt: new Date(),
-      updatedAt: new Date()
+      processedAt: null,
+      updatedAt: null
     },
     {
       client_name: 'Cliente 4',
@@ -32,7 +35,8 @@ module.exports = {
       table: 1,
       status: "delivered",
       createdAt: new Date(),
-      updatedAt: new Date()
+      processedAt: null,
+      updatedAt: null
     },
     {
       client_name: 'Cliente 5',
@@ -40,7 +44,8 @@ module.exports = {
       table: 1,
       status: "delivered",
       createdAt: new Date(),
-      updatedAt: new Date()
+      processedAt: null,
+      updatedAt: null
     },
     {
       client_name: 'Cliente 6',
@@ -48,7 +53,8 @@ module.exports = {
       table: 4,
       status: "delivered",
       createdAt: new Date(),
-      updatedAt: new Date()
+      processedAt: null,
+      updatedAt: null
     },
   ], {});
   },

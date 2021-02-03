@@ -28,8 +28,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      processedAt: {
+        type: Sequelize.DATE
+      },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE
       }
     });

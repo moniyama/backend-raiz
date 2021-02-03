@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     client_name: DataTypes.STRING,
     user_id: DataTypes.INTEGER,
     table: DataTypes.INTEGER,
-    status: DataTypes.STRING
+    status: DataTypes.STRING,
+    processedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Orders',
