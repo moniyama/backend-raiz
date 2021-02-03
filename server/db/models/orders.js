@@ -10,18 +10,27 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Orders.belongsTo(models.Users, { foreignKey: 'user_id' });
-      Orders.belongsToMany(models.Products, { through: "ProductsOrders", foreignKey: 'order_id' })
-  }
-};
-Orders.init({
-  client_name: DataTypes.STRING,
-  user_id: DataTypes.INTEGER,
-  table: DataTypes.INTEGER,
-  status: DataTypes.STRING
-}, {
-  sequelize,
-  modelName: 'Orders',
-});
-return Orders;
+      Orders.belongsTo(models.Users, {
+        foreignKey: 'user_id',
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      });
+      Orders.belongsToMany(models.Products, {
+        through: "ProductsOrders",
+        foreignKey: 'order_id',
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      })
+    }
+  };
+  Orders.init({
+    client_name: DataTypes.STRING,
+    user_id: DataTypes.INTEGER,
+    table: DataTypes.INTEGER,
+    status: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'Orders',
+  });
+  return Orders;
 };
