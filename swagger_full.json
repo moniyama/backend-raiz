@@ -109,6 +109,82 @@
             "description": "usuário não autenticado"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Creates a new product",
+        "operationId": "createProduct",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Auth token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "name of the product",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "description": "price of the product",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "flavor",
+            "in": "formData",
+            "description": "optional flavor of the product",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "complement",
+            "in": "formData",
+            "description": "optional complement of the product",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "optional image URL of the product",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "optional type - breakfast, all-day",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subType",
+            "in": "formData",
+            "description": "optional subType - hamburger, drinks",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
       }
     },
     "/products/{productId}": {
@@ -150,6 +226,47 @@
           },
           "404": {
             "description": "not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Delete product",
+        "description": "Delete product",
+        "operationId": "deleteProduct",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "The product that needs to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Auth token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
+          },
+          "401": {
+            "description": "User not authenticated"
+          },
+          "404": {
+            "description": "Product not found"
           }
         }
       }
