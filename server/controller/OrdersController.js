@@ -1,10 +1,12 @@
 const models = require('../db/models')
 const error = require('../../utils')
+const sequelize = require('sequelize')
 
 const rearrangeOrdersObject = (array) => {
   return array.map(obj => {
     delete obj.dataValues.User
     obj.dataValues.Products.forEach(product => {
+      product.dataValues.qtd = product.dataValues.ProductsOrders.dataValues.qtd
       delete product.dataValues.ProductsOrders
       delete product.dataValues.image
       delete product.dataValues.type
@@ -56,6 +58,7 @@ const getAllOrders = async (req, res) => {
         model: models.Products,
       }]
     })
+    console.log(orders);
     res.status(200).json(rearrangeOrdersObject(orders))
   } catch (error) {
     console.log(error);
@@ -82,10 +85,11 @@ const getOrder = async (req, res) => {
 }
 
 const postOrder = async (req, res) => {
-  const { client, table, productId } = req.body
+  const { client, table, products } = req.body
+
   const userId = res.locals.user.dataValues.id
   try {
-    if (!table || !client || !productId) {
+    if (!table || !client || products.length === 0) {
       res.status(400).json(error(400, "Dados insuficientes"))
     } else {
       const order = await models.Orders.create({
@@ -95,10 +99,13 @@ const postOrder = async (req, res) => {
         status: "pending",
         processedAt: null,
       })
-      const productsId = Array.from(productId).map(id => parseInt(id))
-      for (const id of productsId) {
-        await order.addProducts(id)
-      }
+      const productsToCreate = products.map(product => ({
+        product_id: parseInt(product.id),
+        qtd: product.qtd,
+        order_id: order.id
+      }))
+      const teste = await models.ProductsOrders.bulkCreate(productsToCreate)
+      console.log(teste)
       const orderCreated = await models.Orders.findByPk((order.id), { include: [{ model: models.Products }] })
       res.status(200).json(rearrangeOrdersObject([orderCreated])[0])
     }

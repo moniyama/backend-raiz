@@ -800,6 +800,10 @@
               },
               "complement": {
                 "type": "string"
+              },
+              "qtd": {
+                "type": "integer",
+                "format": "int64"
               }
             }
           }
