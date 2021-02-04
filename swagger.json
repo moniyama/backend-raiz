@@ -70,7 +70,10 @@
             }
           },
           "400": {
-            "description": "email/senha inválido"
+            "description": "email/senha inválido",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -106,7 +109,10 @@
             }
           },
           "401": {
-            "description": "usuário não autenticado"
+            "description": "usuário não autenticado",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -146,10 +152,16 @@
             }
           },
           "401": {
-            "description": "usuário não autenticado"
+            "description": "usuário não autenticado",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "not found"
+            "description": "not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -188,7 +200,10 @@
             }
           },
           "401": {
-            "description": "User not authenticated"
+            "description": "User not authenticated",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -249,10 +264,16 @@
             }
           },
           "400": {
-            "description": "Missing required data"
+            "description": "Missing required data",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "403": {
-            "description": "Email already in use"
+            "description": "Email already in use",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -291,13 +312,22 @@
             }
           },
           "401": {
-            "description": "User not authenticated"
+            "description": "User not authenticated",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "403": {
-            "description": "Forbidden. User belongs to another restaurant "
+            "description": "Forbidden. User belongs to another restaurant",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "User not found"
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -352,16 +382,28 @@
             }
           },
           "400": {
-            "description": "Missing required data"
+            "description": "Missing required data",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "401": {
-            "description": "User not authorized"
+            "description": "User not authorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "403": {
-            "description": "Forbidden. User belongs to another restaurant "
+            "description": "Forbidden. User belongs to another restaurant",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "User not found"
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -399,13 +441,22 @@
             }
           },
           "401": {
-            "description": "User not authenticated"
+            "description": "User not authenticated",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "403": {
-            "description": "Forbidden. User belongs to another restaurant "
+            "description": "Forbidden. User belongs to another restaurant",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "User not found"
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -441,7 +492,10 @@
             }
           },
           "401": {
-            "description": "User not authenticated"
+            "description": "User not authenticated",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -491,10 +545,16 @@
             }
           },
           "400": {
-            "description": "Missing required data"
+            "description": "Missing required data",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "401": {
-            "description": "User not authenticated"
+            "description": "User not authenticated",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -533,13 +593,22 @@
             }
           },
           "401": {
-            "description": "User not authenticated"
+            "description": "User not authenticated",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "403": {
-            "description": "Forbidden. Order belongs to another restaurant "
+            "description": "Forbidden. Order belongs to another restaurant",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "User not found"
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -587,16 +656,28 @@
             }
           },
           "400": {
-            "description": "Missing required data or no changes applied"
+            "description": "Missing required data or no changes applied",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "401": {
-            "description": "User not authorized"
+            "description": "User not authorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "403": {
-            "description": "Forbidden. Order belongs to another restaurant "
+            "description": "Forbidden. Order belongs to another restaurant",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "Order not found"
+            "description": "Order not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -634,13 +715,22 @@
             }
           },
           "401": {
-            "description": "User not authenticated"
+            "description": "User not authenticated",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "403": {
-            "description": "Forbidden. Order belongs to another restaurant "
+            "description": "Forbidden. Order belongs to another restaurant",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "Order not found"
+            "description": "Order not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -766,6 +856,17 @@
           "type": "string"
         },
         "subtype": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
           "type": "string"
         }
       }
