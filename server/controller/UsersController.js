@@ -12,12 +12,16 @@ const rebuildObj = (arr) => {
 
 const deleteUser = async (req, res) => {
   const { uid } = req.params
+  const restaurant = res.locals.user.dataValues.restaurant
+
   try {
-    const user = await models.Users.findOne({ where: { id: uid } });
+    const user = await models.Users.findByPk(uid);
     if (!user) {
       res.status(404).json(error(404, 'usuario(a) não existe'))
+    } else if(user.dataValues.restaurant !== restaurant) {
+      res.status(403).json(error(403, 'Sem permissão. Usuário(a) pertence a outro restaurante'))
     } else {
-      const deleteUser = await models.Users.destroy({   // dá pra aproveitar o user??
+      const deleteUser = await models.Users.destroy({
         where: {
           id: uid
         }
@@ -32,9 +36,10 @@ const deleteUser = async (req, res) => {
 }
 
 const getAllUsers = async (req, res) => {
-  // requer auth
+  const restaurant = res.locals.user.dataValues.restaurant
   try {
     const users = await models.Users.findAll({
+      where: { restaurant: restaurant },
       order: [
         ['id', 'ASC']
       ]
@@ -46,17 +51,14 @@ const getAllUsers = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
+  const restaurant = res.locals.user.dataValues.restaurant
   const { uid } = req.params
   try {
-    const user = await models.Users.findOne({
-      where: {
-        id: uid
-      }
-    })
-    if (user) {
+    const user = await models.Users.findByPk(uid)
+    if (user && user.dataValues.restaurant === restaurant) {
       res.status(200).json(rebuildObj([user])[0])
     } else {
-      res.status(404).json('usuaria solicitada no existe')
+      res.status(404).json(error(404, 'usuaria solicitada não existe ou não pertence ao restaurante'))
     }
   } catch (error) {
     console.log(error)
@@ -94,33 +96,38 @@ const postUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-  const { email, password, name, role } = req.body
+  const { name, role } = req.body
   const { uid } = req.params
-  if (!email || !password) {
-    res.status(400).json(error(400, "Email ou senha não fornecido"))
+  const localUserData = res.locals.user.dataValues
+  if (!name && !role) {
+    res.status(400).json(error(400, "Nenhum dado foi fornecido"))
   } else {
     try {
-      const user = await models.Users.findOne({ where: { id: uid, email } });
-      const userData = user.dataValues
+      const user = await models.Users.findByPk(uid)
       if (!user) {
-        res.status(404).json(error(404, `Usuário(a) de ${uid} com email ${email} não existe`))
+        res.status(404).json(error(404, `Usuário(a) não existe`))
       } else {
-        if (name === userData.name && role === userData.role) {
-          res.status(400).json(error(400, "Não há alterações para serem aplicadas"))
-        } else {
-          if (name) {
-            userData.name = name
-          }
-          if (role) {
-            userData.role = role
-          }
-          await models.Users.update(userData, {
-            where: {
-              id: uid
-            }
-          });
-          res.status(200).json(rebuildObj([user])[0])
+        let userName = user.dataValues.name
+        let userRole = user.dataValues.role
+        if (localUserData.restaurant !== user.dataValues.restaurant) {
+          res.status(403).json(error(403, "Usuário não pertence ao restaurante"))
         }
+        if (userName === name && userRole === role || !name && userRole === role || !role && userName === name) {   // se role e name 
+          res.status(400).json(error(400, "Não há alterações para serem aplicadas"))
+        }
+        if (name && name !== userName) {
+          user.dataValues.name = name
+        }
+        if (role && role !== userRole) {
+          user.dataValues.role = role
+        }
+        await models.Users.update(user.dataValues, {
+          where: {
+            id: uid
+          }
+        });
+        const updatedUser = await models.Users.findByPk(uid)
+        res.status(200).json(rebuildObj([updatedUser])[0])
       }
     } catch (error) {
       console.log(error);
