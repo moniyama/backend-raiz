@@ -160,6 +160,7 @@
           "users"
         ],
         "summary": "List all users",
+        "description": "List all users of the restaurant",
         "operationId": "getUsers",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -250,9 +251,6 @@
           "400": {
             "description": "Missing required data"
           },
-          "401": {
-            "description": "User not authenticated"
-          },
           "403": {
             "description": "Email already in use"
           }
@@ -295,6 +293,9 @@
           "401": {
             "description": "User not authenticated"
           },
+          "403": {
+            "description": "Forbidden. User belongs to another restaurant "
+          },
           "404": {
             "description": "User not found"
           }
@@ -329,20 +330,6 @@
             "type": "string"
           },
           {
-            "name": "email",
-            "in": "formData",
-            "description": "the user email",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "description": "the user password",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "name",
             "in": "formData",
             "description": "the new user name - optional",
@@ -369,6 +356,9 @@
           },
           "401": {
             "description": "User not authorized"
+          },
+          "403": {
+            "description": "Forbidden. User belongs to another restaurant "
           },
           "404": {
             "description": "User not found"
@@ -411,6 +401,9 @@
           "401": {
             "description": "User not authenticated"
           },
+          "403": {
+            "description": "Forbidden. User belongs to another restaurant "
+          },
           "404": {
             "description": "User not found"
           }
@@ -423,7 +416,7 @@
           "orders"
         ],
         "summary": "List all orders",
-        "description": "Get all orders",
+        "description": "Get all orders of the restaurant",
         "operationId": "getOrders",
         "produces": [
           "application/json"
@@ -542,6 +535,9 @@
           "401": {
             "description": "User not authenticated"
           },
+          "403": {
+            "description": "Forbidden. Order belongs to another restaurant "
+          },
           "404": {
             "description": "User not found"
           }
@@ -596,6 +592,9 @@
           "401": {
             "description": "User not authorized"
           },
+          "403": {
+            "description": "Forbidden. Order belongs to another restaurant "
+          },
           "404": {
             "description": "Order not found"
           }
@@ -636,6 +635,9 @@
           },
           "401": {
             "description": "User not authenticated"
+          },
+          "403": {
+            "description": "Forbidden. Order belongs to another restaurant "
           },
           "404": {
             "description": "Order not found"
