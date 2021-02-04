@@ -55,10 +55,13 @@ const getUser = async (req, res) => {
   const { uid } = req.params
   try {
     const user = await models.Users.findByPk(uid)
+
     if (user && user.dataValues.restaurant === restaurant) {
       res.status(200).json(rebuildObj([user])[0])
     } else {
-      res.status(404).json(error(404, 'usuaria solicitada não existe ou não pertence ao restaurante'))
+      !user
+        ? res.status(404).json(error(404, 'Usuario(a) não existe'))
+        : res.status(403).json(error(403, "Acesso negado. Usuário não pertence ao restaurante"))
     }
   } catch (error) {
     console.log(error)
@@ -110,7 +113,7 @@ const updateUser = async (req, res) => {
         let userName = user.dataValues.name
         let userRole = user.dataValues.role
         if (localUserData.restaurant !== user.dataValues.restaurant) {
-          res.status(403).json(error(403, "Usuário não pertence ao restaurante"))
+          res.status(403).json(error(403, "Acesso negado. Usuário não pertence ao restaurante"))
         }
         if (userName === name && userRole === role || !name && userRole === role || !role && userName === name) {   // se role e name 
           res.status(400).json(error(400, "Não há alterações para serem aplicadas"))
