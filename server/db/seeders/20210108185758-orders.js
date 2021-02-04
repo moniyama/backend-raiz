@@ -9,16 +9,16 @@ module.exports = {
       status: "pending",
       createdAt: new Date(),
       processedAt: null,
-      updatedAt: null
+      updatedAt: new Date()
     },
     {
       client_name: 'Cliente 2',
       user_id: 2,
       table: 5,
       status: "canceled",
-      processedAt: null,
       createdAt: new Date(),
-      updatedAt: null
+      processedAt: null,
+      updatedAt: new Date()
     },
     {
       client_name: 'Cliente 3',
@@ -27,7 +27,7 @@ module.exports = {
       status: "delivering",
       createdAt: new Date(),
       processedAt: null,
-      updatedAt: null
+      updatedAt: new Date()
     },
     {
       client_name: 'Cliente 4',
@@ -36,7 +36,7 @@ module.exports = {
       status: "delivered",
       createdAt: new Date(),
       processedAt: null,
-      updatedAt: null
+      updatedAt: new Date()
     },
     {
       client_name: 'Cliente 5',
@@ -45,7 +45,7 @@ module.exports = {
       status: "delivered",
       createdAt: new Date(),
       processedAt: null,
-      updatedAt: null
+      updatedAt: new Date()
     },
     {
       client_name: 'Cliente 6',
@@ -54,9 +54,9 @@ module.exports = {
       status: "delivered",
       createdAt: new Date(),
       processedAt: null,
-      updatedAt: null
+      updatedAt: new Date()
     },
-  ], {});
+    ], {});
   },
 
   down: async (queryInterface, Sequelize) => {

@@ -29,10 +29,12 @@ module.exports = {
         type: Sequelize.DATE
       },
       processedAt: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: null
       },
       updatedAt: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false,
       }
     });
   },
