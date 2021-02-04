@@ -4,7 +4,7 @@ const error = require('../../utils')
 const deleteProduct = async (req, res) => {
   const { productId } = req.params
   try {
-    const product = await models.Products.findOne({ where: { id: productId } })
+    const product = await models.Products.findByPk(productId)
     if (product) {
       const deleteProduct = await models.Products.destroy({ where: { id: productId } })
       res.status(200).json(product)
@@ -32,7 +32,7 @@ const getAllProducts = async (req, res) => {
 const getProduct = async (req, res) => {
   const { productId } = req.params
   try {
-    const product = await models.Products.findOne({ where: { id: productId } })
+    const product = await models.Products.findByPk(productId)
     if (!product) {
       res.status(404).json(error(404, `não existe produto com id ${productId}`))
     } else {
