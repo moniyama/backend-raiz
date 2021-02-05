@@ -70,7 +70,7 @@
             }
           },
           "400": {
-            "description": "email/senha inválido",
+            "description": "Invalid email and/or password",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -222,12 +222,6 @@
         ],
         "parameters": [
           {
-            "name": "name",
-            "in": "formData",
-            "description": "the user name - optional",
-            "type": "string"
-          },
-          {
             "name": "email",
             "in": "formData",
             "description": "the user email",
@@ -253,6 +247,12 @@
             "in": "formData",
             "description": "the user restaurant work",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "the user name - optional",
             "type": "string"
           }
         ],
@@ -514,27 +514,13 @@
         ],
         "parameters": [
           {
-            "name": "client",
-            "in": "formData",
-            "description": "the client name",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "table",
-            "in": "formData",
-            "description": "the client table",
+            "name": "body",
+            "in": "body",
+            "type": "object",
             "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "productId",
-            "in": "formData",
-            "description": "the product ID",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "$ref": "#/definitions/OrderBody"
+            }
           }
         ],
         "responses": {
@@ -772,15 +758,18 @@
           "type": "string"
         },
         "processedAt": {
-          "type": "date",
+          "type": "string",
+          "format": "date",
           "description": "Date of the first update process"
         },
         "createdAt": {
-          "type": "date",
+          "type": "string",
+          "format": "date",
           "description": "Date of the creation process"
         },
         "updatedAt": {
-          "type": "date",
+          "type": "string",
+          "format": "date",
           "description": "Date of the last update process"
         },
         "Products": {
@@ -872,6 +861,33 @@
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "OrderBody": {
+      "type": "object",
+      "properties": {
+        "client": {
+          "type": "string"
+        },
+        "table": {
+          "type": "string"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "qtd": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
         }
       }
     }
