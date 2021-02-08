@@ -58,7 +58,6 @@ const getAllOrders = async (req, res) => {
         model: models.Products,
       }]
     })
-    console.log(orders);
     res.status(200).json(rearrangeOrdersObject(orders))
   } catch (error) {
     console.log(error);
@@ -104,10 +103,18 @@ const postOrder = async (req, res) => {
         qtd: product.qtd,
         order_id: order.id
       }))
-      const teste = await models.ProductsOrders.bulkCreate(productsToCreate)
-      console.log(teste)
-      const orderCreated = await models.Orders.findByPk((order.id), { include: [{ model: models.Products }] })
-      res.status(200).json(rearrangeOrdersObject([orderCreated])[0])
+      const checkProducts = productsToCreate.map(product => {
+        if (!product.product_id || !product.qtd) {
+          res.status(400).json(error(400, "Dados insuficientes de produtos"))
+        } else {
+          return true
+        }
+      })
+      if (checkProducts) {
+        const teste = await models.ProductsOrders.bulkCreate(productsToCreate)
+        const orderCreated = await models.Orders.findByPk((order.id), { include: [{ model: models.Products }] })
+        res.status(200).json(rearrangeOrdersObject([orderCreated])[0])
+      }
     }
   } catch (err) {
     console.log(err)
