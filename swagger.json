@@ -49,14 +49,14 @@
         "parameters": [
           {
             "name": "email",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the user email",
             "required": true,
             "type": "string"
           },
           {
             "name": "password",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the user password",
             "required": true,
             "type": "string"
@@ -223,35 +223,35 @@
         "parameters": [
           {
             "name": "email",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the user email",
             "required": true,
             "type": "string"
           },
           {
             "name": "password",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the user password",
             "required": true,
             "type": "string"
           },
           {
             "name": "role",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the user role",
             "required": true,
             "type": "string"
           },
           {
             "name": "restaurant",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the user restaurant work",
             "required": true,
             "type": "string"
           },
           {
             "name": "name",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the user name - optional",
             "type": "string"
           }
@@ -361,14 +361,14 @@
           },
           {
             "name": "name",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the new user name - optional",
             "required": false,
             "type": "string"
           },
           {
             "name": "role",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the new user role - optional",
             "required": false,
             "type": "string"
@@ -628,7 +628,7 @@
           },
           {
             "name": "status",
-            "in": "formData",
+            "in": "x-www-form-urlencoded",
             "description": "the new order status",
             "required": true,
             "type": "string"
