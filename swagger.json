@@ -41,22 +41,22 @@
         "summary": "Create a token",
         "operationId": "createAuthToken",
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "email",
-            "in": "x-www-form-urlencoded",
+            "name": "user",
+            "in": "body",
             "description": "the user email",
             "required": true,
             "type": "string"
           },
           {
             "name": "password",
-            "in": "x-www-form-urlencoded",
+            "in": "body",
             "description": "the user password",
             "required": true,
             "type": "string"
@@ -175,7 +175,7 @@
         "description": "List all users of the restaurant",
         "operationId": "getUsers",
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -215,45 +215,34 @@
         "description": "Create a new user",
         "operationId": "createUser",
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "email",
-            "in": "x-www-form-urlencoded",
+            "name": "user",
+            "in": "body",
             "description": "the user email",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "x-www-form-urlencoded",
-            "description": "the user password",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "role",
-            "in": "x-www-form-urlencoded",
-            "description": "the user role",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "restaurant",
-            "in": "x-www-form-urlencoded",
-            "description": "the user restaurant work",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "in": "x-www-form-urlencoded",
-            "description": "the user name - optional",
-            "type": "string"
+            "type": "string",
+            "schema": {
+              "type": "object",
+              "required": [
+                "email",
+                "password",
+                "role",
+                "restaurant"
+              ],
+              "properties": {
+                "email": { "type": "string" },
+                "password": { "type": "string" },
+                "role": { "type": "string" },
+                "restaurant": { "type": "string" },
+                "name": { "type": "string" }
+              }
+            }
           }
         ],
         "responses": {
@@ -339,7 +328,7 @@
         "description": "Update User role or name",
         "operationId": "updateUser",
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -361,14 +350,14 @@
           },
           {
             "name": "name",
-            "in": "x-www-form-urlencoded",
+            "in": "body",
             "description": "the new user name - optional",
             "required": false,
             "type": "string"
           },
           {
             "name": "role",
-            "in": "x-www-form-urlencoded",
+            "in": "body",
             "description": "the new user role - optional",
             "required": false,
             "type": "string"
@@ -507,7 +496,7 @@
         "description": "Create a new order",
         "operationId": "createOrder",
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -606,7 +595,7 @@
         "description": "Update order status",
         "operationId": "updateOrder",
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -628,7 +617,7 @@
           },
           {
             "name": "status",
-            "in": "x-www-form-urlencoded",
+            "in": "body",
             "description": "the new order status",
             "required": true,
             "type": "string"
