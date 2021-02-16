@@ -46,7 +46,7 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     },{
-      name: "hambuguer simples",
+      name: "Hambúrguer simples",
       price: 10.00,
       flavor: "carne",
       complement: null,
@@ -57,7 +57,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer simples",
+      name: "Hambúrguer simples",
       price: 10.00,
       flavor: "frango",
       complement: null,
@@ -68,7 +68,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer simples",
+      name: "Hambúrguer simples",
       price: 10.00,
       flavor: "vegetariano",
       complement: null,
@@ -79,7 +79,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer simples",
+      name: "Hambúrguer simples",
       price: 11.00,
       flavor: "carne",
       complement: "queijo",
@@ -90,7 +90,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer simples",
+      name: "Hambúrguer simples",
       price: 11.00,
       flavor: "frango",
       complement: "queijo",
@@ -101,7 +101,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer simples",
+      name: "Hambúrguer simples",
       price: 11.00,
       flavor: "vegetariano",
       complement: "queijo",
@@ -112,7 +112,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer simples",
+      name: "Hambúrguer simples",
       price: 11.00,
       flavor: "carne",
       complement: "ovo",
@@ -123,7 +123,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer simples",
+      name: "Hambúrguer simples",
       price: 11.00,
       flavor: "frango",
       complement: "ovo",
@@ -134,7 +134,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer simples",
+      name: "Hambúrguer simples",
       price: 11.00,
       flavor: "vegetariano",
       complement: "ovo",
@@ -145,7 +145,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer duplo",
+      name: "Hambúrguer duplo",
       price: 15.00,
       flavor: "carne",
       complement: null,
@@ -156,7 +156,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer duplo",
+      name: "Hambúrguer duplo",
       price: 15.00,
       flavor: "frango",
       complement: null,
@@ -167,7 +167,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer duplo",
+      name: "Hambúrguer duplo",
       price: 15.00,
       flavor: "vegetariano",
       complement: null,
@@ -178,7 +178,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer duplo",
+      name: "Hambúrguer duplo",
       price: 16.00,
       flavor: "carne",
       complement: "ovo",
@@ -189,7 +189,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer duplo",
+      name: "Hambúrguer duplo",
       price: 16.00,
       flavor: "frango",
       complement: "ovo",
@@ -200,7 +200,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer duplo",
+      name: "Hambúrguer duplo",
       price: 16.00,
       flavor: "vegetariano",
       complement: "ovo",
@@ -211,7 +211,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer duplo",
+      name: "Hambúrguer duplo",
       price: 16.00,
       flavor: "carne",
       complement: "queijo",
@@ -222,7 +222,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer duplo",
+      name: "Hambúrguer duplo",
       price: 16.00,
       flavor: "frango",
       complement: "queijo",
@@ -233,7 +233,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      name: "hambuguer duplo",
+      name: "Hambúrguer duplo",
       price: 16.00,
       flavor: "vegetariano",
       complement: "queijo",
