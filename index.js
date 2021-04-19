@@ -7,6 +7,7 @@ const authRouter = require('./server/routes/AuthRouter')
 const productsRouter = require('./server/routes/ProductsRouter')
 const ordersRouter = require('./server/routes/OrdersRouter')
 const usersRouter = require('./server/routes/UsersRouter')
+const internalRouter = require('./server/routes/InternalRouter')
 
 const app = express()
 const port = process.env.PORT || 3000 
@@ -19,6 +20,7 @@ app.use('/auth', authRouter);
 app.use('/products', productsRouter);
 app.use('/orders', ordersRouter);
 app.use('/users', usersRouter);
+app.use('/internal', internalRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
