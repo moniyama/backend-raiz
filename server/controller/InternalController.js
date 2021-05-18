@@ -16,7 +16,8 @@ const list = async (req, res) => {
 
 const deleteOptions = {
     where: {},
-    truncate: true
+    truncate: true,
+    cascade: true,
 };
 const reset = async (req, res) => {
     try {
