@@ -17,16 +17,16 @@
       "description": "Access to authentication"
     },
     {
-      "name": "orders",
-      "description": "Access to all orders"
-    },
-    {
       "name": "users",
       "description": "Operations about user"
     },
     {
       "name": "products",
       "description": "Operations about products"
+    },
+    {
+      "name": "orders",
+      "description": "Access to all orders"
     }
   ],
   "schemes": [
@@ -50,16 +50,20 @@
           {
             "name": "user",
             "in": "body",
-            "description": "the user email",
+            "description": "user data",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "body",
-            "description": "the user password",
-            "required": true,
-            "type": "string"
+            "type": "string",
+            "schema": {
+              "type": "object",
+              "required": [
+                "email",
+                "password"
+              ],
+              "properties": {
+                "email": { "type": "string" },
+                "password": { "type": "string" }
+              }
+            }
           }
         ],
         "responses": {
@@ -130,16 +134,15 @@
         ],
         "parameters": [
           {
-            "name": "productId",
-            "in": "path",
-            "description": "ID of product to return",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "Authorization",
             "in": "header",
             "description": "Auth token",
+            "required": true,
+            "type": "string"
+          }, {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of product to return",
             "required": true,
             "type": "string"
           }
@@ -224,7 +227,7 @@
           {
             "name": "user",
             "in": "body",
-            "description": "the user email",
+            "description": "user data",
             "required": true,
             "type": "string",
             "schema": {
@@ -236,11 +239,18 @@
                 "restaurant"
               ],
               "properties": {
+                "name": { "type": "string" },
                 "email": { "type": "string" },
                 "password": { "type": "string" },
                 "role": { "type": "string" },
-                "restaurant": { "type": "string" },
-                "name": { "type": "string" }
+                "restaurant": { "type": "string" }
+              },
+              "example": {
+                "name": "Sample Name - optional",
+                "email": "sample@mail.com",
+                "password": "sample",
+                "role": "sample role",
+                "restaurant": "sample restaurant"
               }
             }
           }
@@ -272,7 +282,7 @@
         "tags": [
           "users"
         ],
-        "summary": "Get user by Id",
+        "summary": "Get user by ID",
         "operationId": "getUserById",
         "produces": [
           "application/json"
@@ -349,18 +359,21 @@
             "type": "string"
           },
           {
-            "name": "name",
+            "name": "user",
             "in": "body",
-            "description": "the new user name - optional",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "role",
-            "in": "body",
-            "description": "the new user role - optional",
-            "required": false,
-            "type": "string"
+            "description": "user data",
+            "type": "string",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "role": { "type": "string" }
+              },
+              "example": {
+                "name": "Sample Name - optional",
+                "role": "sample role - optional"
+              }
+            }
           }
         ],
         "responses": {
@@ -371,7 +384,7 @@
             }
           },
           "400": {
-            "description": "Missing required data",
+            "description": "Missing required or new data",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -401,7 +414,6 @@
           "users"
         ],
         "summary": "Delete user",
-        "description": "Delete user",
         "operationId": "deleteUser",
         "produces": [
           "application/json"
@@ -503,6 +515,12 @@
         ],
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Auth token",
+            "required": true,
+            "type": "string"
+          },{
             "name": "body",
             "in": "body",
             "type": "object",
@@ -539,7 +557,7 @@
         "tags": [
           "orders"
         ],
-        "summary": "Get order by Id",
+        "summary": "Get order by ID",
         "operationId": "getOrderById",
         "produces": [
           "application/json"
@@ -591,7 +609,7 @@
         "tags": [
           "orders"
         ],
-        "summary": "Update order",
+        "summary": "Update order status",
         "description": "Update order status",
         "operationId": "updateOrder",
         "consumes": [
@@ -661,7 +679,6 @@
           "orders"
         ],
         "summary": "Delete order",
-        "description": "Delete order",
         "operationId": "deleteOrder",
         "produces": [
           "application/json"
@@ -721,8 +738,7 @@
       "allOf": [
         {
           "$ref": "#/definitions/Users"
-        },
-        {}
+        }
       ]
     },
     "Orders": {
@@ -878,6 +894,16 @@
             }
           }
         }
+      },
+      "example": {
+        "client": "string",
+        "table": "2",
+        "products": [
+          {
+            "id": 31,
+            "qtd": 2
+          }
+        ]
       }
     }
   }
