@@ -1,15 +1,12 @@
 const models = require('../db/models')
-const error = require('../../utils')
+const { productsErrors } = require('../../utils')
 
 const deleteProduct = async (req, res) => {
   const { productId } = req.params
-  const errors = {
-    notFound: { code: 404, message: 'Produto não encontrado' },
-  }
   try {
     const product = await models.Products.findByPk(productId)
     if (!product) {
-      throw (errors.notFound)
+      throw (productsErrors.notFound)
     }
 
     await models.Products.destroy({ where: { id: productId } })
@@ -20,9 +17,6 @@ const deleteProduct = async (req, res) => {
 }
 
 const getAllProducts = async (req, res) => {
-  const errors = {
-    notFound: { code: 404, message: 'Produtos não encontrados' },
-  }
   try {
     const products = await models.Products.findAll({
       order: [
@@ -30,7 +24,7 @@ const getAllProducts = async (req, res) => {
       ]
     })
     if (!products) {
-      throw (errors.notFound)
+      throw (productsErrors.notFound)
     }
     return res.status(200).json(products)
   } catch (err) {
@@ -40,13 +34,11 @@ const getAllProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   const { productId } = req.params
-  const errors = {
-    notFound: { code: 404, message: 'Produto não encontrado' },
-  }
+
   try {
     const product = await models.Products.findByPk(productId)
     if (!product) {
-      throw (errors.notFound)
+      throw (productsErrors.notFound)
     }
     return res.status(200).json(product)
   } catch (err) {
@@ -56,13 +48,10 @@ const getProduct = async (req, res) => {
 
 const postProduct = async (req, res) => {
   const { name, price, image, type, subType, flavor, complement } = req.body
-  const errors = {
-    missingData: { code: 400, message: 'não foi indicado name ou price' },
-  }
 
   try {
     if (!name || !price) {
-      throw (errors.missingData)
+      throw (productsErrors.missingData)
     }
     const newProduct = {
       name,

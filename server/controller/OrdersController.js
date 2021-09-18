@@ -1,6 +1,5 @@
 const models = require('../db/models')
-const error = require('../../utils')
-const sequelize = require('sequelize')
+const { ordersErrors } = require('../../utils')
 
 const rearrangeOrdersObject = (array) => {
   return array.map(obj => {
@@ -22,19 +21,15 @@ const rearrangeOrdersObject = (array) => {
 const deleteOrder = async (req, res) => {
   const restaurant = res.locals.user.dataValues.restaurant
   const { orderId } = req.params
-  const errors = {
-    notFound: { code: 404, message: 'Ordem não encontrada' },
-    denyAccess: { code: 403, message: "Acesso negado. Usuário não pertence ao restaurante" },
-  }
   try {
     const order = await models.Orders.findByPk(orderId,
       { include: [{ model: models.Products }, { model: models.Users }] }
     )
     if (!order) {
-      throw (errors.notFound)
+      throw (ordersErrors.notFound)
     }
     if (restaurant !== order.dataValues.User.dataValues.restaurant) {
-      throw (errors.denyAccess)
+      throw (ordersErrors.denyAccess)
     }
     await models.Orders.destroy({
       where: { id: orderId },
@@ -48,9 +43,6 @@ const deleteOrder = async (req, res) => {
 
 const getAllOrders = async (req, res) => {
   const restaurant = res.locals.user.dataValues.restaurant
-  const errors = {
-    notFound: { code: 404, message: 'Ordem não encontrada' },
-  }
   try {
     const orders = await models.Orders.findAll({
       include: [{
@@ -65,7 +57,7 @@ const getAllOrders = async (req, res) => {
       }]
     })
     if (!orders) {
-      throw (errors.notFound)
+      throw (ordersErrors.notFound)
     }
     return res.status(200).json(rearrangeOrdersObject(orders))
   } catch (err) {
@@ -76,19 +68,15 @@ const getAllOrders = async (req, res) => {
 const getOrder = async (req, res) => {
   const { orderId } = req.params
   const restaurant = res.locals.user.dataValues.restaurant
-  const errors = {
-    notFound: { code: 404, message: 'Ordem não encontrada' },
-    denyAccess: { code: 403, message: "Acesso negado. Ordem não pertence ao restaurante" },
-  }
   try {
     const order = await models.Orders.findByPk(orderId, {
       include: [{ model: models.Products }, { model: models.Users, }]
     })
     if (!order) {
-      throw (errors.notFound)
+      throw (ordersErrors.notFound)
     }
     if (restaurant !== order.dataValues.User.dataValues.restaurant) {
-      throw (errors.denyAccess)
+      throw (ordersErrors.denyAccess)
     }
     return res.status(200).json(rearrangeOrdersObject([order])[0])
   } catch (err) {
@@ -99,14 +87,10 @@ const getOrder = async (req, res) => {
 const postOrder = async (req, res) => {
   const { client, table, products } = req.body
   const userId = res.locals.user.dataValues.id
-  const errors = {
-    missingData: { code: 400, message: "client, table ou products não fornecido" },
-    missingProductData: { code: 400, message: "id ou qtd dos produtos não fornecido" },
-  }
 
   try {
     if (!table || !client || products.length === 0) {
-      throw (errors.missingData)
+      throw (ordersErrors.missingData)
     } else {    // verificar produtos, antes de criar uma order
       const order = await models.Orders.create({
         client_name: client,
@@ -122,7 +106,7 @@ const postOrder = async (req, res) => {
       }))
       const checkProducts = productsToCreate.map(product => {
         if (!product.product_id || !product.qtd) {
-          throw (errors.missingProductData)
+          throw (ordersErrors.missingProductData)
         } else {
           return true
         }
@@ -142,28 +126,22 @@ const updateOrder = async (req, res) => {
   const restaurant = res.locals.user.dataValues.restaurant
   const { status } = req.body
   const { orderId } = req.params
-  const errors = {
-    notFound: { code: 404, message: 'Ordem não encontrada' },
-    denyAccess: { code: 403, message: "Acesso negado. Ordem não pertence ao restaurante" },
-    missingData: { code: 400, message: "status ou orderId não fornecido" },
-    noDataChange: { code: 400, message: "Não há alterações para serem aplicadas" }
-  }
   try {
     if (!status || !orderId) {
-      throw (errors.missingData)
+      throw (ordersErrors.missingData)
     }
     const order = await models.Orders.findByPk(orderId, { include: [{ model: models.Products }, { model: models.Users }] })
     if (!order) {
-      throw (errors.notFound)
+      throw (ordersErrors.notFound)
     }
     if (restaurant !== order.dataValues.User.dataValues.restaurant) {
-      throw (errors.denyAccess)
+      throw (ordersErrors.denyAccess)
     }
-    
+
     const orderData = order.dataValues
     const { status: orderStatus, processedAt: orderProcessDate } = order.dataValues
     if (orderStatus === status) {
-      throw (errors.noDataChange)
+      throw (ordersErrors.noDataChange)
     }
     if (!orderProcessDate) {
       orderData.processedAt = new Date()
