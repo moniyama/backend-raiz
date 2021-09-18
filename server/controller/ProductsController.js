@@ -3,52 +3,67 @@ const error = require('../../utils')
 
 const deleteProduct = async (req, res) => {
   const { productId } = req.params
+  const errors = {
+    notFound: { code: 404, message: 'Produto não encontrado' },
+  }
   try {
     const product = await models.Products.findByPk(productId)
-    if (product) {
-      const deleteProduct = await models.Products.destroy({ where: { id: productId } })
-      res.status(200).json(product)
-    } else {
-      res.status(404).json(error(404, "Produto não existe"))
+    if (!product) {
+      throw (errors.notFound)
     }
-  } catch (error) {
-    console.log(error)
+
+    await models.Products.destroy({ where: { id: productId } })
+    return res.status(200).json(product)
+  } catch (err) {
+    return res.status(err.code).json(err)
   }
 }
 
 const getAllProducts = async (req, res) => {
+  const errors = {
+    notFound: { code: 404, message: 'Produtos não encontrados' },
+  }
   try {
     const products = await models.Products.findAll({
       order: [
         ['id', 'ASC']
       ]
     })
-    res.status(200).json(products)
-  } catch (error) {
-    console.log(error)
+    if (!products) {
+      throw (errors.notFound)
+    }
+    return res.status(200).json(products)
+  } catch (err) {
+    return res.status(err.code).json(err)
   }
 }
 
 const getProduct = async (req, res) => {
   const { productId } = req.params
+  const errors = {
+    notFound: { code: 404, message: 'Produto não encontrado' },
+  }
   try {
     const product = await models.Products.findByPk(productId)
     if (!product) {
-      res.status(404).json(error(404, `não existe produto com id ${productId}`))
-    } else {
-      res.status(200).json(product)
+      throw (errors.notFound)
     }
-  } catch (error) {
-    console.log(error)
+    return res.status(200).json(product)
+  } catch (err) {
+    return res.status(err.code).json(err)
   }
 }
 
 const postProduct = async (req, res) => {
   const { name, price, image, type, subType, flavor, complement } = req.body
+  const errors = {
+    missingData: { code: 400, message: 'não foi indicado name ou price' },
+  }
 
-  if (!name || !price) {
-    res.status(400).json(error(400, 'não foi indicado name ou price'))
-  } else {
+  try {
+    if (!name || !price) {
+      throw (errors.missingData)
+    }
     const newProduct = {
       name,
       price: parseFloat(price),
@@ -58,12 +73,10 @@ const postProduct = async (req, res) => {
       flavor: flavor || null,
       complement: complement || null,
     }
-    try {
-      const product = await models.Products.create(newProduct)
-      res.status(200).json(product)
-    } catch (error) {
-      console.log("error", error)
-    }
+    const product = await models.Products.create(newProduct)
+    return res.status(200).json(product)
+  } catch (err) {
+    return res.status(err.code).json(err)
   }
 }
 
