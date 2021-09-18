@@ -1,22 +1,5 @@
 const models = require('../db/models')
-const { ordersErrors } = require('../../utils')
-
-const rearrangeOrdersObject = (array) => {
-  return array.map(obj => {
-    delete obj.dataValues.User
-    obj.dataValues.Products.forEach(product => {
-      product.dataValues.qtd = product.dataValues.ProductsOrders.dataValues.qtd
-      delete product.dataValues.ProductsOrders
-      delete product.dataValues.image
-      delete product.dataValues.type
-      delete product.dataValues.sub_type
-      delete product.dataValues.createdAt
-      delete product.dataValues.updatedAt
-      delete product.dataValues.price
-    })
-    return obj
-  })
-}
+const { ordersErrors, rearrangeOrdersObject } = require('../../utils')
 
 const deleteOrder = async (req, res) => {
   const restaurant = res.locals.user.dataValues.restaurant

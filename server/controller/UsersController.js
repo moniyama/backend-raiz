@@ -1,14 +1,7 @@
 const bcrypt = require('bcryptjs');
 const models = require('../db/models')
 const jwt = require('jsonwebtoken')
-const { usersErrors } = require('../../utils')
-
-const rebuildObj = (arr) => {
-  return arr.map(obj => {
-    delete obj.dataValues.password
-    return obj
-  })
-}
+const { usersErrors, rebuildObj } = require('../../utils')
 
 const deleteUser = async (req, res) => {
   const { uid } = req.params
