@@ -876,7 +876,8 @@
           "type": "string"
         },
         "table": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         },
         "products": {
           "type": "array",
@@ -897,7 +898,7 @@
       },
       "example": {
         "client": "string",
-        "table": "2",
+        "table": 2,
         "products": [
           {
             "id": 31,
