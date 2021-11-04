@@ -1,22 +1,22 @@
 const models = require('../db/models')
-const { productsErrors } = require('../../utils')
+const { productsErrors } = require('../middlewares/error')
 
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res, next) => {
   const { productId } = req.params
   try {
     const product = await models.Products.findByPk(productId)
     if (!product) {
-      throw (productsErrors.notFound)
+      return next(productsErrors.notFound)
     }
 
     await models.Products.destroy({ where: { id: productId } })
     return res.status(200).json(product)
   } catch (err) {
-    return res.status(err.code).json(err)
+    return next(err)
   }
 }
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res, next) => {
   try {
     const products = await models.Products.findAll({
       order: [
@@ -24,34 +24,34 @@ const getAllProducts = async (req, res) => {
       ]
     })
     if (!products) {
-      throw (productsErrors.notFound)
+      next(productsErrors.notFound)
     }
     return res.status(200).json(products)
   } catch (err) {
-    return res.status(err.code).json(err)
+    return next(err)
   }
 }
 
-const getProduct = async (req, res) => {
+const getProduct = async (req, res, next) => {
   const { productId } = req.params
 
   try {
     const product = await models.Products.findByPk(productId)
     if (!product) {
-      throw (productsErrors.notFound)
+      next(productsErrors.notFound)
     }
     return res.status(200).json(product)
   } catch (err) {
-    return res.status(err.code).json(err)
+    return next(err)
   }
 }
 
-const postProduct = async (req, res) => {
+const postProduct = async (req, res, next) => {
   const { name, price, image, type, subType, flavor, complement } = req.body
 
   try {
     if (!name || !price) {
-      throw (productsErrors.missingData)
+      next(productsErrors.missingData)
     }
     const newProduct = {
       name,
@@ -65,11 +65,11 @@ const postProduct = async (req, res) => {
     const product = await models.Products.create(newProduct)
     return res.status(200).json(product)
   } catch (err) {
-    return res.status(err.code).json(err)
+    return next(err)
   }
 }
 
-const updateProduct = (req, res) => {
+const updateProduct = (req, res, next) => {
   const { name, price } = req.body
   const { productId } = req.params
   res.status(200).json({ op: "update", name, price })
