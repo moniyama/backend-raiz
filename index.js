@@ -8,6 +8,7 @@ const productsRouter = require('./server/routes/ProductsRouter')
 const ordersRouter = require('./server/routes/OrdersRouter')
 const usersRouter = require('./server/routes/UsersRouter')
 const internalRouter = require('./server/routes/InternalRouter')
+const { errorHandler } = require('./server/middlewares/error')
 
 const app = express()
 const port = process.env.PORT || 3000 
@@ -21,6 +22,7 @@ app.use('/products', productsRouter);
 app.use('/orders', ordersRouter);
 app.use('/users', usersRouter);
 app.use('/internal', internalRouter);
+app.use(errorHandler)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
