@@ -1,7 +1,8 @@
 const models = require('../db/models')
-const { ordersErrors, rearrangeOrdersObject } = require('../../utils')
+const { ordersErrors } = require('../middlewares/error')
+const { rearrangeOrdersObject } = require('../../utils')
 
-const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res, next) => {
   const restaurant = res.locals.user.dataValues.restaurant
   const { orderId } = req.params
   try {
@@ -9,10 +10,10 @@ const deleteOrder = async (req, res) => {
       { include: [{ model: models.Products }, { model: models.Users }] }
     )
     if (!order) {
-      throw (ordersErrors.notFound)
+      return next (ordersErrors.notFound)
     }
     if (restaurant !== order.dataValues.User.dataValues.restaurant) {
-      throw (ordersErrors.denyAccess)
+      return next (ordersErrors.denyAccess)
     }
     await models.Orders.destroy({
       where: { id: orderId },
@@ -20,11 +21,11 @@ const deleteOrder = async (req, res) => {
     })
     return res.status(200).json(rearrangeOrdersObject([order])[0])
   } catch (err) {
-    return res.status(err.code).json(err);
+    return next(err);
   }
 }
 
-const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res, next) => {
   const restaurant = res.locals.user.dataValues.restaurant
   try {
     const orders = await models.Orders.findAll({
@@ -40,15 +41,15 @@ const getAllOrders = async (req, res) => {
       }]
     })
     if (!orders) {
-      throw (ordersErrors.notFound)
+      return next(ordersErrors.notFound)
     }
     return res.status(200).json(rearrangeOrdersObject(orders))
   } catch (err) {
-    return res.status(err.code).json(err);
+    return next(err);
   }
 }
 
-const getOrder = async (req, res) => {
+const getOrder = async (req, res, next) => {
   const { orderId } = req.params
   const restaurant = res.locals.user.dataValues.restaurant
   try {
@@ -56,24 +57,24 @@ const getOrder = async (req, res) => {
       include: [{ model: models.Products }, { model: models.Users, }]
     })
     if (!order) {
-      throw (ordersErrors.notFound)
+      return next(ordersErrors.notFound)
     }
     if (restaurant !== order.dataValues.User.dataValues.restaurant) {
-      throw (ordersErrors.denyAccess)
+      return next(ordersErrors.denyAccess)
     }
     return res.status(200).json(rearrangeOrdersObject([order])[0])
   } catch (err) {
-    return res.status(err.code).json(err);
+    return next(err);
   }
 }
 
-const postOrder = async (req, res) => {
+const postOrder = async (req, res, next) => {
   const { client, table, products } = req.body
   const userId = res.locals.user.dataValues.id
 
   try {
     if (!table || !client || products.length === 0) {
-      throw (ordersErrors.missingData)
+      return next(ordersErrors.missingData)
     } else {    // verificar produtos, antes de criar uma order
       const order = await models.Orders.create({
         client_name: client,
@@ -89,7 +90,7 @@ const postOrder = async (req, res) => {
       }))
       const checkProducts = productsToCreate.map(product => {
         if (!product.product_id || !product.qtd) {
-          throw (ordersErrors.missingProductData)
+          return next(ordersErrors.missingProductData)
         } else {
           return true
         }
@@ -101,30 +102,30 @@ const postOrder = async (req, res) => {
       }
     }
   } catch (err) {
-    return res.status(err.code).json(err);
+    return next(err);
   }
 }
 
-const updateOrder = async (req, res) => {
+const updateOrder = async (req, res, next) => {
   const restaurant = res.locals.user.dataValues.restaurant
   const { status } = req.body
   const { orderId } = req.params
   try {
     if (!status || !orderId) {
-      throw (ordersErrors.missingData)
+      return next(ordersErrors.missingData)
     }
     const order = await models.Orders.findByPk(orderId, { include: [{ model: models.Products }, { model: models.Users }] })
     if (!order) {
-      throw (ordersErrors.notFound)
+      return next(ordersErrors.notFound)
     }
     if (restaurant !== order.dataValues.User.dataValues.restaurant) {
-      throw (ordersErrors.denyAccess)
+      return next(ordersErrors.denyAccess)
     }
 
     const orderData = order.dataValues
     const { status: orderStatus, processedAt: orderProcessDate } = order.dataValues
     if (orderStatus === status) {
-      throw (ordersErrors.noDataChange)
+      return next(ordersErrors.noDataChange)
     }
     if (!orderProcessDate) {
       orderData.processedAt = new Date()
@@ -134,7 +135,7 @@ const updateOrder = async (req, res) => {
     const updatedOrder = await models.Orders.findByPk(orderId, { include: [{ model: models.Products }] })
     return res.status(200).json(rearrangeOrdersObject([updatedOrder])[0])
   } catch (err) {
-    return res.status(err.code).json(err);
+    return next(err);
   }
 }
 
