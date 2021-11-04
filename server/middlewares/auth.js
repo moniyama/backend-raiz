@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const models = require('../db/models')
+const { errorHandler } = require('../middlewares/error')
 
 const tokenVerify = async (req, res, next) => {
   const token = req.headers.authorization
@@ -7,9 +8,10 @@ const tokenVerify = async (req, res, next) => {
     invalidToken: { code: 401, message: "token inválido" },
     missingToken: { code: 401, message: "token não fornecido" }
   }
+
   try {
     if (!token) {
-      throw (errors.missingToken)
+      return errorHandler(errors.missingToken, req, res)
     }
     const decoded = jwt.verify(token, 'HMAC')
     const { id, email } = decoded
@@ -21,11 +23,11 @@ const tokenVerify = async (req, res, next) => {
     })
     res.locals.user = hasUser;
     if (!hasUser) {
-      throw (errors.invalidToken)
+      return errorHandler(errors.invalidToken, req, res)
     }
     next()
   } catch (err) {
-    return res.status(err.code).json(err)
+    return errorHandler(errors.invalidToken, req, res)
   }
 }
 
