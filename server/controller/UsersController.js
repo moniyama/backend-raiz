@@ -3,18 +3,18 @@ const models = require('../db/models')
 const jwt = require('jsonwebtoken')
 const { usersErrors, rebuildObj } = require('../../utils')
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
   const { uid } = req.params
   const restaurant = res.locals.user.dataValues.restaurant
 
   try {
     const user = await models.Users.findByPk(uid);
     if (!user) {
-      throw (usersErrors.notFound)
+      return next(usersErrors.notFound)
     }
     const { restaurant: userRestaurant } = user.dataValues
     if (userRestaurant !== restaurant) {
-      throw (usersErrors.denyAccess)
+      return next(usersErrors.denyAccess)
     }
     const deleteUser = await models.Users.destroy({
       where: {
@@ -25,11 +25,11 @@ const deleteUser = async (req, res) => {
       return res.status(200).json(rebuildObj([user])[0])
     }
   } catch (err) {
-    return res.status(err.code).json(err);
+    return next(err);
   }
 }
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
   const restaurant = res.locals.user.dataValues.restaurant
   try {
     const users = await models.Users.findAll({
@@ -44,34 +44,34 @@ const getAllUsers = async (req, res) => {
   }
 }
 
-const getUser = async (req, res) => {
+const getUser = async (req, res, next) => {
   const restaurant = res.locals.user.dataValues.restaurant
   const { uid } = req.params
 
   try {
     const user = await models.Users.findByPk(uid)
     if (!user) {
-      throw (usersErrors.notFound)
+      return next(usersErrors.notFound)
     }
     const userBelongsToSameRestaurant = user.dataValues.restaurant === restaurant
     if (!userBelongsToSameRestaurant) {
-      throw (usersErrors.denyAccess)
+      return next(usersErrors.denyAccess)
     }
     return res.status(200).json(rebuildObj([user])[0])
   } catch (err) {
-    return res.status(err.code).json(err);
+    return next(err);
   }
 }
 
-const postUser = async (req, res) => {
+const postUser = async (req, res, next) => {
   const { email, password, name, role, restaurant } = req.body
   try {
     if (!email || !password || !role || !restaurant) {
-      throw (usersErrors.missingData)
+      return next(usersErrors.missingData)
     }
     const hasUser = await models.Users.findOne({ where: { email } })
     if (hasUser) {
-      throw (usersErrors.emailInUse)
+      return next(usersErrors.emailInUse)
     }
     const saltRounds = 12;
     const hash = await bcrypt.hash(password, saltRounds);
@@ -86,29 +86,29 @@ const postUser = async (req, res) => {
     user.dataValues.token = token
     return res.status(200).json(rebuildObj([user])[0])
   } catch (err) {
-    return res.status(err.code).json(err);
+    return next(err);
   }
 }
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
   const { name, role } = req.body
   const { uid } = req.params
   const localUserData = res.locals.user.dataValues
 
   try {
     if (!name && !role) {
-      throw (usersErrors.missingData)
+      return next(usersErrors.missingData)
     }
     const user = await models.Users.findByPk(uid)
     if (!user) {
-      throw (usersErrors.notFound)
+      return next(usersErrors.notFound)
     } else {
       const { name: userName, role: userRole, restaurant } = user.dataValues
       if (localUserData.restaurant !== restaurant) {
-        throw (usersErrors.denyAccess)
+        return next(usersErrors.denyAccess)
       }
       if (userName === name && userRole === role || !name && userRole === role || !role && userName === name) {   // se role e name 
-        throw (usersErrors.noDataChange)
+        return next(usersErrors.noDataChange)
       }
       if (name && name !== userName) {
         user.dataValues.name = name
@@ -125,7 +125,7 @@ const updateUser = async (req, res) => {
       return res.status(200).json(rebuildObj([updatedUser])[0])
     }
   } catch (err) {
-    return res.status(err.code).json(err);
+    return next(err);
   }
 }
 
