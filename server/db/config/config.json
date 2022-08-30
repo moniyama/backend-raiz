@@ -1,5 +1,5 @@
 {
   "database": "main",
   "dialect": "sqlite",
-  "storage": "data.sqlite3"
+  "storage": "server/db/storage/data.sqlite3"
 }
