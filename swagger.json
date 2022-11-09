@@ -9,7 +9,7 @@
       "email": "monicay@laboratoria.la"
     }
   },
-  "host": "lab-api-bq.up.onrender.com",
+  "host": "lab-api-bq.onrender.com",
   "basePath": "/",
   "tags": [
     {
