@@ -1,5 +1,5 @@
 const models = require('../db/models')
-const error = require('../../utils')
+const { error } = require('../../utils')
 const sequelize = require('sequelize')
 
 const rearrangeOrdersObject = (array) => {

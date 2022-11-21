@@ -1,5 +1,5 @@
 const models = require('../db/models')
-const error = require('../../utils')
+const { error } = require('../../utils')
 
 const deleteProduct = async (req, res) => {
   const { productId } = req.params

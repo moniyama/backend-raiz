@@ -4,4 +4,6 @@ const error = (code, message) => {
   }
 }
 
-module.exports = error
+const toMinutes = (time) => time * 1000 * 60;
+
+module.exports = { error, toMinutes }
