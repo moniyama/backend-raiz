@@ -12,6 +12,8 @@ const usersRouter = require('./server/routes/UsersRouter')
 const internalRouter = require('./server/routes/InternalRouter')
 const healthcheckRouter = require('./server/routes/Healthcheck')
 
+const limiter = require('./server/middlewares/rate-limiter')
+
 const app = express()
 const port = process.env.PORT || 3000 
 
@@ -19,6 +21,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.use(limiter);
 app.use('/auth', authRouter);
 app.use('/products', productsRouter);
 app.use('/orders', ordersRouter);

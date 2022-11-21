@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const models = require('../db/models')
-const error = require('../../utils')
+const { error } = require('../../utils')
 
 const tokenVerify = async (req, res, next) => {
   const token = req.headers.authorization

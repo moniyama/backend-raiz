@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const models = require('../db/models')
-const error = require('../../utils')
+const { error } = require('../../utils')
 
 const createToken = async (req, res) => {
   const { email, password } = req.body
